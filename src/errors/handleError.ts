@@ -15,7 +15,7 @@ export function handleError (err: Error, request: Request, response: Response, _
     } else if (err instanceof ZodError){
         return response.status(400).json(err.flatten().fieldErrors)
     } else if (err.message.includes("violates unique constraint" && "users_email_key")){
-        return response.status(409).json({ message: "Email already in use."})
+        return response.status(409).json({ message: "Email already registered."})
     } else {
         console.log(err.message)
         return response.status(500).json({ message: "Internal server error."})

@@ -7,6 +7,22 @@ export async function deactivateUserService (data: any): Promise<void>{
         throw new AppError("Insufficient Permission.", 403)
     }
 
+    const checkActivateString: string = format(`
+        SELECT
+            *
+        FROM
+            "users"
+        WHERE
+            "id" = %s;
+    `,
+        data.params.id
+    )
+    const checkActivateResult = await client.query(checkActivateString)
+    console.log(checkActivateResult.rows[0].active)
+    if (!checkActivateResult.rows[0].active){
+        throw new AppError("User already deactivate.", 400)
+    }
+
     const queryString: string = format(`
         UPDATE
             "users"
