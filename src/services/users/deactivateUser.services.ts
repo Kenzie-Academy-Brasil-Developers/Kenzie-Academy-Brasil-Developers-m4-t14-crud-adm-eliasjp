@@ -18,7 +18,7 @@ export async function deactivateUserService (data: any): Promise<void>{
         data.params.id
     )
     const checkActivateResult = await client.query(checkActivateString)
-    console.log(checkActivateResult.rows[0].active)
+    
     if (!checkActivateResult.rows[0].active){
         throw new AppError("User already deactivate.", 400)
     }

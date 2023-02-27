@@ -4,7 +4,7 @@ import { client } from "../../database/config.database"
 import { AppError } from "../../errors/handleError"
 
 export async function reactivateUserService (data: any): Promise<void>{
-    if (!data.user.admin){
+    if (!data.user.admin && Number(data.params.id) !== data.user.id){
         throw new AppError("Insufficient Permission.", 403)
     }
 
@@ -19,7 +19,7 @@ export async function reactivateUserService (data: any): Promise<void>{
         data.params.id
     )
     const checkActivateResult = await client.query(checkActivateString)
-    console.log(checkActivateResult.rows[0].active)
+
     if (checkActivateResult.rows[0].active){
         throw new AppError("User already activate.", 400)
     }
